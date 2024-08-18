@@ -1,0 +1,51 @@
+.header {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+  }
+
+  &__search {
+    display: flex;
+    position: relative;
+  }
+
+  &__button {
+    position: absolute;
+    top: 8px;
+    left: 33px;
+    background-color: transparent;
+  }
+
+  &__input {
+    border: 1px solid #000;
+    border-radius: 40px;
+    width: 803px;
+    height: 62px;
+    box-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.25);
+    background: #d9d9d9;
+    padding: 20px 80px 14px 102px;
+  }
+
+  &__location {
+    display: flex;
+    box-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.25);
+    background: #4cbb17;
+    border-radius: 40px;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 25px;
+    transition: all 0.3s ease 0s;
+    p {
+      font-weight: 800;
+      font-size: 22px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    &:hover {
+      background: #46d405;
+    }
+  }
+}
