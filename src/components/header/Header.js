@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUserLocation } from '../WeatherCurrent/weatherSlice';
+import { setLocation, fetchUserLocation } from '../WeatherCurrent/weatherSlice';
 
 import './header.scss';
 
@@ -14,22 +14,10 @@ const Header = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-  }
 
-  const searchUserLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const location = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        }
+    dispatch(setLocation(cityName));
 
-        dispatch(setUserLocation(location));
-      },
-      (error) => {
-        console.error("Error getting location: ", error);
-      }
-    );
+    setCityName('');
   }
 
   return (
@@ -48,7 +36,7 @@ const Header = () => {
             onChange={(e) => setCityName(e.target.value)}
             className="header__input" />
         </form>
-        <button className="header__location" onClick={searchUserLocation}>
+        <button className="header__location" onClick={() => dispatch(fetchUserLocation())}>
           <img src={locationIcon} alt="location" />
           <p>Current Location</p>
         </button>

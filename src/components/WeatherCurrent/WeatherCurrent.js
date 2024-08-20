@@ -5,12 +5,12 @@ import { fetchCurrentWeather } from './weatherSlice';
 import './weatherCurrent.scss';
 
 const WeatherCurrent = () => {
-  const { weather, userLocation } = useSelector(state => state.weather);
+  const { weather, lastChangedLocation } = useSelector(state => state.weather);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCurrentWeather(userLocation));
-  }, [userLocation]);
+    dispatch(fetchCurrentWeather(lastChangedLocation));
+  }, [lastChangedLocation]);
 
   console.log(weather);
 
