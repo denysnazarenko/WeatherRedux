@@ -28,7 +28,7 @@ export const fetchUserLocation = createAsyncThunk(
   'weather/fetchLocation',
   async () => {
     const { request } = useHttp();
-    const _apiKey = '7cc26bc7260348939257df738e3808f6';
+    const _apiKey = 'a0f5bd2704494ca0941f202760000437';
 
     const response = await request(`https://api.ipgeolocation.io/ipgeo?apiKey=${_apiKey}`);
 
