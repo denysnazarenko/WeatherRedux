@@ -7,9 +7,16 @@
     gap: 15px;
   }
 
+  &__form {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
   &__search {
     display: flex;
     position: relative;
+    z-index: 1;
   }
 
   &__button {
@@ -48,4 +55,28 @@
       background: #46d405;
     }
   }
+
+  &__spinner {
+    margin-left: 140px;
+  }
+}
+
+.autocomplete-list {
+  position: absolute;
+  top: 62px;
+  margin-left: 80px;
+  max-width: 200px;
+  padding: 10px;
+  gap: 10px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.autocomplete-item {
+  text-align: center;
+  cursor: pointer;
 }

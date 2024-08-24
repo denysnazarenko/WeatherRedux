@@ -7,7 +7,9 @@ const initialState = {
   userLocationLoadingStatus: 'idle',
   location: '',
   userLocation: '',
-  lastChangedLocation: ''
+  lastChangedLocation: '',
+  cityAutocompleteLoadingStatus: 'idle',
+  cityAutocomplete: []
 }
 
 export const fetchCurrentWeather = createAsyncThunk(
@@ -38,6 +40,20 @@ export const fetchUserLocation = createAsyncThunk(
   }
 )
 
+export const fetchAutocomplete = createAsyncThunk(
+  'weather/fetchAutocomplete',
+  async (city, thunkAPI) => {
+    const { request } = useHttp();
+    const { _apiBase, _apiKey } = thunkAPI.extra;
+
+    const response = await request(`${_apiBase}search.json?key=${_apiKey}&q=${city}`);
+
+    const citys = response.map(obj => obj.name);
+
+    return citys;
+  }
+)
+
 const weatherSlice = createSlice({
   name: 'weather',
   initialState,
@@ -45,6 +61,9 @@ const weatherSlice = createSlice({
     setLocation: (state, action) => {
       state.location = action.payload;
       state.lastChangedLocation = action.payload;
+    },
+    clearAutocompleteData: (state) => {
+      state.cityAutocomplete = '';
     }
   },
   extraReducers: (builder) => {
@@ -62,6 +81,12 @@ const weatherSlice = createSlice({
         state.userLocation = action.payload;
         state.lastChangedLocation = action.payload;
       })
+      .addCase(fetchAutocomplete.pending, state => { state.cityAutocompleteLoadingStatus = 'loading' })
+      .addCase(fetchAutocomplete.rejected, state => { state.cityAutocompleteLoadingStatus = 'error' })
+      .addCase(fetchAutocomplete.fulfilled, (state, action) => {
+        state.cityAutocompleteLoadingStatus = 'idle';
+        state.cityAutocomplete = action.payload;
+      })
       .addDefaultCase(() => { })
   }
 });
@@ -71,5 +96,5 @@ const { actions, reducer } = weatherSlice;
 export default reducer;
 export const {
   setLocation,
-  setUserLocation
+  clearAutocompleteData
 } = actions;

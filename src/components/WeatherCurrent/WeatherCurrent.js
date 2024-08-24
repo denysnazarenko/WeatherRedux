@@ -12,8 +12,6 @@ const WeatherCurrent = () => {
     dispatch(fetchCurrentWeather(lastChangedLocation));
   }, [lastChangedLocation]);
 
-  console.log(weather);
-
   return (
     <section className="current">current</section>
   )
