@@ -2,27 +2,31 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useHttp } from "../../hooks/http.hook";
 
 const initialState = {
-  weather: [],
+  weatherData: [],
   weatherLoadingStatus: 'idle',
   userLocationLoadingStatus: 'idle',
-  location: '',
+  location: 'London',
   userLocation: '',
-  lastChangedLocation: '',
+  lastChangedLocation: 'London',
+  cityTime: '',
   cityAutocompleteLoadingStatus: 'idle',
   cityAutocomplete: []
 }
 
 export const fetchCurrentWeather = createAsyncThunk(
   'weather/fetchWeather',
-  (lastChangedLocation, thunkAPI) => {
+  async (lastChangedLocation, thunkAPI) => {
     const { request } = useHttp();
     const { _apiBase, _apiKey } = thunkAPI.extra;
 
-    if (lastChangedLocation === '') {
-      return request(`${_apiBase}current.json?key=${_apiKey}&q=London&aqi=no/`);
-    } else {
-      return request(`${_apiBase}current.json?key=${_apiKey}&q=${lastChangedLocation}&aqi=no/`);
-    }
+    const respons = await request(`${_apiBase}current.json?key=${_apiKey}&q=${lastChangedLocation}&aqi=no/`);
+
+    const cityTime = respons.location.localtime;
+
+    return {
+      cityTime,
+      data: respons
+    };
   }
 );
 
@@ -71,7 +75,8 @@ const weatherSlice = createSlice({
       .addCase(fetchCurrentWeather.pending, state => { state.weatherLoadingStatus = 'loading' })
       .addCase(fetchCurrentWeather.fulfilled, (state, action) => {
         state.weatherLoadingStatus = 'idle';
-        state.weather = action.payload;
+        state.cityTime = action.payload.cityTime;
+        state.weatherData = action.payload.data;
       })
       .addCase(fetchCurrentWeather.rejected, state => { state.weatherLoadingStatus = 'error' })
       .addCase(fetchUserLocation.rejected, state => { state.userLocationLoadingStatus = 'error' })

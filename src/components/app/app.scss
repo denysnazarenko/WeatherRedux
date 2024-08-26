@@ -1,0 +1,16 @@
+.app {
+  &__header {}
+
+  &__content {}
+
+  &__top {
+    display: grid;
+    grid-template-columns: minmax(300px, 510px) minmax(300px, 780px);
+    gap: 55px;
+    &:not(:last-child) {
+      margin-bottom: 50px;
+    }
+  }
+
+  &__bottom {}
+}

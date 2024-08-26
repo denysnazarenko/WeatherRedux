@@ -5,6 +5,7 @@ import WeatherHourly from '../WeatherHourly/WeatherHourly';
 import WeatherFiveDays from '../WeatherFiveDays/WeatherFiveDays';
 
 import '../../styles/index.scss';
+import './app.scss';
 
 const App = () => {
   return (
@@ -12,14 +13,16 @@ const App = () => {
       <div className="app__header">
         <Header />
       </div>
-      <div className="app__content">
-        <div className="app__top">
-          <WeatherInfo />
-          <WeatherCurrent />
-        </div>
-        <div className="app__bottom">
-          <WeatherHourly />
-          <WeatherFiveDays />
+      <div className="app__container">
+        <div className="app__content">
+          <div className="app__top">
+            <WeatherInfo />
+            <WeatherCurrent />
+          </div>
+          <div className="app__bottom">
+            <WeatherHourly />
+            <WeatherFiveDays />
+          </div>
         </div>
       </div>
     </main>

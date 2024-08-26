@@ -27,10 +27,12 @@ const Header = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    dispatch(setLocation(cityName));
+    if (cityName !== '') {
+      dispatch(setLocation(cityName));
 
-    setCityName('');
-    dispatch(clearAutocompleteData());
+      setCityName('');
+      dispatch(clearAutocompleteData());
+    }
   }
 
   const autocomplete = () => {
