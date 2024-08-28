@@ -10,7 +10,9 @@ const initialState = {
   lastChangedLocation: 'London',
   cityTime: '',
   cityAutocompleteLoadingStatus: 'idle',
-  cityAutocomplete: []
+  cityAutocomplete: [],
+  astroLoadingStatus: 'idle',
+  astro: []
 }
 
 export const fetchCurrentWeather = createAsyncThunk(
@@ -19,13 +21,24 @@ export const fetchCurrentWeather = createAsyncThunk(
     const { request } = useHttp();
     const { _apiBase, _apiKey } = thunkAPI.extra;
 
-    const respons = await request(`${_apiBase}current.json?key=${_apiKey}&q=${lastChangedLocation}&aqi=no/`);
+    const response = await request(`${_apiBase}current.json?key=${_apiKey}&q=${lastChangedLocation}&aqi=no/`);
 
-    const cityTime = respons.location.localtime;
+    const cityTime = response.location.localtime;
+
+    const data = {
+      temp_c: Math.round(response.current.temp_c),
+      feelslike_c: Math.round(response.current.feelslike_c),
+      text: response.current.condition.text,
+      icon: response.current.condition.icon,
+      humidity: response.current.humidity,
+      wind_kph: Math.round(response.current.wind_kph),
+      pressure_mb: response.current.pressure_mb,
+      uv: response.current.uv
+    }
 
     return {
       cityTime,
-      data: respons
+      data: data
     };
   }
 );
@@ -55,6 +68,23 @@ export const fetchAutocomplete = createAsyncThunk(
     const citys = response.map(obj => obj.name);
 
     return citys;
+  }
+)
+
+export const fetchAstro = createAsyncThunk(
+  'weather/fetchForecastAstro',
+  async (city, thunkAPI) => {
+    const { request } = useHttp();
+    const { _apiBase, _apiKey } = thunkAPI.extra;
+
+    const response = await request(`${_apiBase}forecast.json?key=${_apiKey}&q=${city}&days=1`);
+
+    const data = {
+      sunrise: response.forecast.forecastday[0].astro.sunrise,
+      sunset: response.forecast.forecastday[0].astro.sunset
+    };
+
+    return data;
   }
 )
 
@@ -91,6 +121,12 @@ const weatherSlice = createSlice({
       .addCase(fetchAutocomplete.fulfilled, (state, action) => {
         state.cityAutocompleteLoadingStatus = 'idle';
         state.cityAutocomplete = action.payload;
+      })
+      .addCase(fetchAstro.pending, state => { state.astroLoadingStatus = 'loading' })
+      .addCase(fetchAstro.rejected, state => { state.astroLoadingStatus = 'error' })
+      .addCase(fetchAstro.fulfilled, (state, action) => {
+        state.astroLoadingStatus = 'idle';
+        state.astro = action.payload;
       })
       .addDefaultCase(() => { })
   }
