@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useHttp } from "../../hooks/http.hook";
 
 const initialState = {
-  weatherData: [],
+  weatherData: {},
   weatherLoadingStatus: 'idle',
   userLocationLoadingStatus: 'idle',
   location: 'London',
@@ -11,8 +11,11 @@ const initialState = {
   cityTime: '',
   cityAutocompleteLoadingStatus: 'idle',
   cityAutocomplete: [],
-  astroLoadingStatus: 'idle',
-  astro: []
+  forecastDayLoadingStatus: 'idle',
+  astro: {},
+  hourly: [],
+  forecastFiveDaysLoadingStatus: 'idle',
+  forecastFiveDays: []
 }
 
 export const fetchCurrentWeather = createAsyncThunk(
@@ -71,18 +74,57 @@ export const fetchAutocomplete = createAsyncThunk(
   }
 )
 
-export const fetchAstro = createAsyncThunk(
-  'weather/fetchForecastAstro',
+export const fetchForecastDay = createAsyncThunk(
+  'weather/fetchForecastDay',
   async (city, thunkAPI) => {
     const { request } = useHttp();
     const { _apiBase, _apiKey } = thunkAPI.extra;
 
     const response = await request(`${_apiBase}forecast.json?key=${_apiKey}&q=${city}&days=1`);
 
-    const data = {
+    const astro = {
       sunrise: response.forecast.forecastday[0].astro.sunrise,
       sunset: response.forecast.forecastday[0].astro.sunset
     };
+
+    const hourlyData = [
+      response.forecast.forecastday[0].hour[9],
+      response.forecast.forecastday[0].hour[12],
+      response.forecast.forecastday[0].hour[15],
+      response.forecast.forecastday[0].hour[18],
+      response.forecast.forecastday[0].hour[21]
+    ];
+
+    const hourlyDataFiltered = hourlyData.map(hour => {
+      return {
+        time: hour.time.slice(-5),
+        icon: hour.condition.icon,
+        temp_c: Math.round(hour.temp_c),
+        wind_dir: hour.wind_dir,
+        wind_kph: Math.round(hour.wind_kph)
+      }
+    })
+    console.log(hourlyDataFiltered);
+    return { astro, hourlyDataFiltered };
+  }
+)
+
+export const fetchForecastFiveDays = createAsyncThunk(
+  'weather/fetchForecastFiveDays',
+  async (city, thunkAPI) => {
+    const { request } = useHttp();
+    const { _apiBase, _apiKey } = thunkAPI.extra;
+
+    const response = await request(`${_apiBase}forecast.json?key=${_apiKey}&q=${city}&days=3`);
+
+    const data = response.forecast.forecastday.map(day => {
+      return {
+        icon: day.day.condition.icon,
+        maxtemp_c: Math.round(day.day.maxtemp_c),
+        mintemp_c: Math.round(day.day.mintemp_c),
+        date: day.date
+      }
+    });
 
     return data;
   }
@@ -122,11 +164,18 @@ const weatherSlice = createSlice({
         state.cityAutocompleteLoadingStatus = 'idle';
         state.cityAutocomplete = action.payload;
       })
-      .addCase(fetchAstro.pending, state => { state.astroLoadingStatus = 'loading' })
-      .addCase(fetchAstro.rejected, state => { state.astroLoadingStatus = 'error' })
-      .addCase(fetchAstro.fulfilled, (state, action) => {
-        state.astroLoadingStatus = 'idle';
-        state.astro = action.payload;
+      .addCase(fetchForecastDay.pending, state => { state.forecastDayLoadingStatus = 'loading' })
+      .addCase(fetchForecastDay.rejected, state => { state.forecastDayLoadingStatus = 'error' })
+      .addCase(fetchForecastDay.fulfilled, (state, action) => {
+        state.forecastDayLoadingStatus = 'idle';
+        state.astro = action.payload.astro;
+        state.hourly = action.payload.hourlyDataFiltered;
+      })
+      .addCase(fetchForecastFiveDays.pending, state => { state.forecastFiveDaysLoadingStatus = 'loading' })
+      .addCase(fetchForecastFiveDays.rejected, state => { state.forecastFiveDaysLoadingStatus = 'error' })
+      .addCase(fetchForecastFiveDays.fulfilled, (state, action) => {
+        state.forecastFiveDaysLoadingStatus = 'idle';
+        state.forecastFiveDays = action.payload;
       })
       .addDefaultCase(() => { })
   }

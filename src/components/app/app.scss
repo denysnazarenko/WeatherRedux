@@ -1,4 +1,6 @@
 .app {
+  background: linear-gradient(135deg, #fff 0%, rgba(70, 97, 115, 0.8) 100%);
+  padding-bottom: 60px;
   &__header {}
 
   &__content {}
@@ -12,5 +14,9 @@
     }
   }
 
-  &__bottom {}
+  &__bottom {
+    display: grid;
+    grid-template-columns: minmax(300px, 414px) minmax(300px, 870px);
+    gap: 55px;
+  }
 }

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrentWeather, fetchAstro } from './weatherSlice';
+import { fetchCurrentWeather, fetchForecastDay } from './weatherSlice';
 
 import './weatherCurrent.scss';
 
@@ -17,7 +17,7 @@ const WeatherCurrent = () => {
 
   useEffect(() => {
     dispatch(fetchCurrentWeather(lastChangedLocation));
-    dispatch(fetchAstro(lastChangedLocation));
+    dispatch(fetchForecastDay(lastChangedLocation));
   }, [lastChangedLocation]);
 
   const { temp_c, feelslike_c, text, icon, humidity, wind_kph, pressure_mb, uv } = weatherData;

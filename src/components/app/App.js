@@ -20,8 +20,8 @@ const App = () => {
             <WeatherCurrent />
           </div>
           <div className="app__bottom">
-            <WeatherHourly />
             <WeatherFiveDays />
+            <WeatherHourly />
           </div>
         </div>
       </div>
