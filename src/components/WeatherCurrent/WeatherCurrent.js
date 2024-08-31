@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCurrentWeather, fetchForecastDay } from './weatherSlice';
 
+import Spinner from '../spinner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+
 import './weatherCurrent.scss';
 
 import sunriseIcon from '../../assets/weatherCurrent/sunrise.png';
@@ -12,7 +15,7 @@ import pressureIcon from '../../assets/weatherCurrent/pressure.png';
 import uvIcon from '../../assets/weatherCurrent/uv.png';
 
 const WeatherCurrent = () => {
-  const { weatherData, astro, lastChangedLocation } = useSelector(state => state.weather);
+  const { weatherData, astro, lastChangedLocation, weatherLoadingStatus } = useSelector(state => state.weather);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,8 +25,19 @@ const WeatherCurrent = () => {
 
   const { temp_c, feelslike_c, text, icon, humidity, wind_kph, pressure_mb, uv } = weatherData;
   const { sunrise, sunset } = astro;
-  return (
-    <section className="current">
+
+  let content;
+
+  if (weatherLoadingStatus === 'loading') {
+    content = <div className="current__content">
+      <Spinner />
+    </div>;
+  } else if (weatherLoadingStatus === 'error') {
+    content = <div className="current__content">
+      <ErrorMessage />
+    </div>;
+  } else if (weatherLoadingStatus === 'idle') {
+    content = (
       <div className="current__content">
         <div className="current__columns">
           <div className="current__column">
@@ -82,6 +96,12 @@ const WeatherCurrent = () => {
           </div>
         </div>
       </div>
+    );
+  }
+
+  return (
+    <section className="current">
+      {content}
     </section>
   )
 }

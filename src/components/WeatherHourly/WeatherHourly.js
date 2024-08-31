@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Spinner from '../spinner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+
 import './weatherHourly.scss';
 import windDirection from '../../assets/weatherHourly/direction.png';
 
 const WeatherHourly = () => {
-  const { hourly } = useSelector(state => state.weather);
+  const { hourly, forecastDayLoadingStatus } = useSelector(state => state.weather);
 
   const renderWeatherHourly = (arr) => {
     if (arr.length === 0) {
@@ -56,14 +59,30 @@ const WeatherHourly = () => {
 
   const elements = renderWeatherHourly(hourly);
 
-  return (
-    <section className="hourly">
+  let content;
+
+  if (forecastDayLoadingStatus === 'loading') {
+    content = <div className="hourly__content">
+      <Spinner />
+    </div>;
+  } else if (forecastDayLoadingStatus === 'error') {
+    content = <div className="hourly__content">
+      <ErrorMessage />
+    </div>;
+  } else if (forecastDayLoadingStatus === 'idle') {
+    content = (
       <div className="hourly__content">
         <h2 className="hourly__title">Hourly Forecast:</h2>
         <ul className="hourly__list">
           {elements}
         </ul>
       </div>
+    );
+  }
+
+  return (
+    <section className="hourly">
+      {content}
     </section>
   )
 }

@@ -2,10 +2,13 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchForecastFiveDays } from '../WeatherCurrent/weatherSlice';
 
+import Spinner from '../spinner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+
 import './weatherFiveDays.scss';
 
 const WeatherFiveDays = () => {
-  const { lastChangedLocation, forecastFiveDays } = useSelector(state => state.weather);
+  const { lastChangedLocation, forecastFiveDays, forecastFiveDaysLoadingStatus } = useSelector(state => state.weather);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,14 +55,30 @@ const WeatherFiveDays = () => {
 
   const days = renderWeatherDay(forecastFiveDays);
 
-  return (
-    <section className="days">
+  let content;
+
+  if (forecastFiveDaysLoadingStatus === 'loading') {
+    content = <div className="days__content">
+      <Spinner />
+    </div>;
+  } else if (forecastFiveDaysLoadingStatus === 'error') {
+    content = <div className="days__content">
+      <ErrorMessage />
+    </div>;
+  } else if (forecastFiveDaysLoadingStatus === 'idle') {
+    content = (
       <div className="days__content">
         <h2 className="days__title">3 Days Forecast:</h2>
         <ul className="days__list">
           {days}
         </ul>
       </div>
+    );
+  }
+
+  return (
+    <section className="days">
+      {content}
     </section>
   )
 }

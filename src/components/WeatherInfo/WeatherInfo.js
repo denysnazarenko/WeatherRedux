@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import Spinner from '../spinner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 
 import './weatherInfo.scss';
 
@@ -31,19 +32,29 @@ const WeatherInfo = () => {
     return months.find(m => m.key === month)?.name
   }
 
-  if (weatherLoadingStatus === 'loading') {
-    return <Spinner className='info__spinner' />;
-  } else if (weatherLoadingStatus === "error") {
-    return <h5 className="error">Ошибка загрузки</h5>;
-  }
+  let content;
 
-  return (
-    <section className="info">
+  if (weatherLoadingStatus === 'loading') {
+    content = <div className="info__content">
+      <Spinner />
+    </div>;
+  } else if (weatherLoadingStatus === 'error') {
+    content = <div className="info__content">
+      <ErrorMessage />
+    </div>;
+  } else if (weatherLoadingStatus === 'idle') {
+    content = (
       <div className="info__content">
         <h2 className="info__city">{city}</h2>
         <div className="info__time">{time}</div>
         <div className="info__day">{`${day} ${gettingMonth(cityTime)}`}</div>
       </div>
+    );
+  }
+
+  return (
+    <section className="info">
+      {content}
     </section>
   )
 }

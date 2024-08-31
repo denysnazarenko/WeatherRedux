@@ -145,14 +145,14 @@ const weatherSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchCurrentWeather.pending, state => { state.weatherLoadingStatus = 'loading' })
+      .addCase(fetchCurrentWeather.rejected, state => { state.weatherLoadingStatus = 'error' })
       .addCase(fetchCurrentWeather.fulfilled, (state, action) => {
         state.weatherLoadingStatus = 'idle';
         state.cityTime = action.payload.cityTime;
         state.weatherData = action.payload.data;
       })
-      .addCase(fetchCurrentWeather.rejected, state => { state.weatherLoadingStatus = 'error' })
-      .addCase(fetchUserLocation.rejected, state => { state.userLocationLoadingStatus = 'error' })
       .addCase(fetchUserLocation.pending, state => { state.userLocationLoadingStatus = 'loading' })
+      .addCase(fetchUserLocation.rejected, state => { state.userLocationLoadingStatus = 'error' })
       .addCase(fetchUserLocation.fulfilled, (state, action) => {
         state.userLocationLoadingStatus = 'idle';
         state.userLocation = action.payload;
