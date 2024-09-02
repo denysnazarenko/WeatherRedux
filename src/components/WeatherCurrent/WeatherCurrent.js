@@ -41,24 +41,28 @@ const WeatherCurrent = () => {
       <div className="current__content">
         <div className="current__columns">
           <div className="current__column">
-            <div className="current__temp">{temp_c}°C</div>
-            <div className="current__feels">Feels like: <span>{feelslike_c}°C</span></div>
-            <div className="current__sunrise sunrise-current">
-              <div className="sunrise-current__image">
-                <img src={sunriseIcon} alt="Sunrise" />
-              </div>
-              <div className="sunrise-current__info">
-                <h4>Sunrise</h4>
-                <p>{sunrise}</p>
-              </div>
+            <div>
+              <div className="current__temp">{temp_c}°C</div>
+              <div className="current__feels">Feels like: <span>{feelslike_c}°C</span></div>
             </div>
-            <div className="current__sunset sunset-current">
-              <div className="sunset-current__image">
-                <img src={sunsetIcon} alt="Sunset" />
+            <div className="current__astro">
+              <div className="current__sunrise sunrise-current">
+                <div className="sunrise-current__image">
+                  <img src={sunriseIcon} alt="Sunrise" />
+                </div>
+                <div className="sunrise-current__info">
+                  <h4>Sunrise</h4>
+                  <p>{sunrise}</p>
+                </div>
               </div>
-              <div className="sunset-current__info">
-                <h4>Sunset</h4>
-                <p>{sunset}</p>
+              <div className="current__sunset sunset-current">
+                <div className="sunset-current__image">
+                  <img src={sunsetIcon} alt="Sunset" />
+                </div>
+                <div className="sunset-current__info">
+                  <h4>Sunset</h4>
+                  <p>{sunset}</p>
+                </div>
               </div>
             </div>
           </div>

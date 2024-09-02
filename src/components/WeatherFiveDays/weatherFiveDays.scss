@@ -1,3 +1,5 @@
+@import '../../styles/vars';
+
 .days {
   background: #d9d9d9;
   border-radius: 30px;
@@ -10,15 +12,18 @@
     flex-direction: column;
     align-items: center;
     padding: 18px;
+    @media (max-width: 767px) {
+      @include adaptiv-value('padding', 18, 15, 1);
+    }
   }
 
   &__title {
     font-weight: 700;
-    font-size: 32px;
+    @include adaptiv-value('font-size', 32, 18, 1);
     text-align: center;
     color: #292929;
     &:not(:last-child) {
-      margin-bottom: 10px;
+      @include adaptiv-value('margin-bottom', 10, 8, 1);
     }
   }
 
@@ -27,8 +32,8 @@
   &__item {}
 
   &__info {
-    margin-top: 15px;
-    font-size: 30px;
+    @include adaptiv-value('margin-top', 15, 10, 1);
+    @include adaptiv-value('font-size', 30, 16, 1);
     color: red;
   }
 }
@@ -36,7 +41,7 @@
 .item-days {
   display: flex;
   align-items: center;
-  gap: 25px;
+  @include adaptiv-value('gap', 25, 15, 1);
   &__icon {
     img {
       max-width: 100%;
@@ -45,14 +50,14 @@
 
   &__temp {
     font-weight: 700;
-    font-size: 20px;
+    @include adaptiv-value('font-size', 20, 16, 1);
     text-align: center;
     color: #292929;
   }
 
   &__day {
     font-weight: 700;
-    font-size: 20px;
+    @include adaptiv-value('font-size', 20, 16, 1);
     text-align: center;
     color: #292929;
   }

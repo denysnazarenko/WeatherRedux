@@ -1,3 +1,5 @@
+@import '../../styles/vars';
+
 .info {
   background: #d9d9d9;
   border-radius: 30px;
@@ -6,7 +8,12 @@
   flex-direction: column;
   justify-content: center;
   &__content {
-    padding: 50px 20px;
+    padding: 30px;
+    @include adaptiv-value('padding-top', 50, 15, 1);
+    @include adaptiv-value('padding-bottom', 50, 15, 1);
+    @media (max-width: 767px) {
+      @include adaptiv-value('padding', 20, 15, 1);
+    }
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,16 +21,16 @@
 
   &__city {
     font-weight: 700;
-    font-size: 36px;
+    @include adaptiv-value('font-size', 36, 18, 1);
     color: #292929;
     &:not(:last-child) {
-      margin-bottom: 50px;
+      @include adaptiv-value('margin-bottom', 50, 20, 1);
     }
   }
 
   &__time {
     font-weight: 700;
-    font-size: 96px;
+    @include adaptiv-value('font-size', 96, 28, 1);
     line-height: 1;
     color: #292929;
     &:not(:last-child) {
@@ -33,7 +40,7 @@
 
   &__day {
     font-weight: 400;
-    font-size: 20px;
+    @include adaptiv-value('font-size', 20, 16, 1);
     color: #292929;
   }
 }

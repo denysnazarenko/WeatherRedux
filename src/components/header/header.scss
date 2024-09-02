@@ -1,10 +1,15 @@
+@import '../../styles/vars';
+
 .header {
-  padding-top: 60px;
-  padding-bottom: 60px;
+  @include adaptiv-value('padding-top', 60, 30, 1);
+  @include adaptiv-value('padding-bottom', 60, 30, 1);
   &__container {
     display: flex;
     justify-content: space-between;
     gap: 15px;
+    @media (max-width: 767px) {
+      flex-direction: column;
+    }
   }
 
   &__form {
@@ -22,33 +27,49 @@
   &__button {
     position: absolute;
     top: 8px;
-    left: 33px;
+    @include adaptiv-value('left', 33, 12, 1);
     background-color: transparent;
+    img {
+      max-width: 100%;
+    }
   }
 
   &__input {
     border: 1px solid #000;
     border-radius: 40px;
-    width: 803px;
+    width: 100%;
+    @media (min-width: 767px) {
+      @include adaptiv-value('width', 803, 100, 1);
+    }
     height: 62px;
     box-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.25);
     background: #d9d9d9;
     padding: 20px 80px 14px 102px;
-    font-size: 24px;
+    @media (max-width: 767px) {
+      padding: 15px 15px 15px 75px;
+    }
+    @include adaptiv-value('font-size', 24, 16, 1);
+    &::placeholder {
+      @include adaptiv-value('font-size', 24, 13, 1);
+    }
   }
 
   &__location {
+    white-space: nowrap;
+    align-self: center;
     display: flex;
     box-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.25);
     background: #4cbb17;
     border-radius: 40px;
     align-items: center;
     gap: 8px;
-    padding: 15px 25px;
+    padding: 15px;
+    @include adaptiv-value('padding-left', 25, 15, 1);
+    @include adaptiv-value('padding-right', 25, 15, 1);
     transition: all 0.3s ease 0s;
     p {
       font-weight: 800;
-      font-size: 22px;
+      @include adaptiv-value('font-size', 22, 16, 1);
       text-align: center;
       color: rgba(255, 255, 255, 0.8);
     }
@@ -66,8 +87,11 @@
   position: absolute;
   top: 62px;
   margin-left: 80px;
+  @media (max-width: 767px) {
+    margin-left: 60px;
+  }
   max-width: 200px;
-  font-size: 20px;
+  @include adaptiv-value('font-size', 20, 16, 1);
   padding: 10px;
   gap: 10px;
   background-color: #fff;

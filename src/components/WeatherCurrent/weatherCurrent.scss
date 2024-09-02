@@ -1,3 +1,5 @@
+@import '../../styles/vars';
+
 .current {
   background: #d9d9d9;
   border-radius: 30px;
@@ -6,7 +8,12 @@
   flex-direction: column;
   justify-content: center;
   &__content {
-    padding: 30px 20px;
+    padding: 20px;
+    @include adaptiv-value('padding-top', 30, 15, 1);
+    @include adaptiv-value('padding-bottom', 30, 15, 1);
+    @media (max-width: 767px) {
+      @include adaptiv-value('padding', 20, 15, 1);
+    }
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,8 +21,11 @@
 
   &__columns {
     display: flex;
-    gap: 20px;
+    @include adaptiv-value('gap', 20, 15, 1);
     justify-content: space-between;
+    @media (max-width: 767px) {
+      flex-direction: column;
+    }
   }
 
   &__column {
@@ -23,21 +33,42 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    @media (max-width: 767px) {
+      justify-content: center;
+      &:first-child {
+        justify-content: space-evenly;
+      }
+    }
+    @media (max-width: 400px) {
+      &:first-child {
+        justify-content: space-between;
+      }
+    }
+    &:nth-child(odd) {
+      @media (max-width: 767px) {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
   }
 
   &__row {
     display: grid;
     grid-template-columns: repeat(2, 110px);
-    gap: 17px;
     text-align: center;
-    &:not(:last-child) {
-      margin-bottom: 20px;
+    @media (min-width: 767px) {
+      @include adaptiv-value('gap', 17, 14, 1);
+      &:not(:last-child) {
+        @include adaptiv-value('margin-bottom', 20, 15, 1);
+      }
     }
   }
 
+  &__astro {}
+
   &__temp {
     font-weight: 700;
-    font-size: 80px;
+    @include adaptiv-value('font-size', 80, 25, 1);
     background: linear-gradient(48deg, #292929 0%, rgba(255, 255, 255, 0) 100%);
     background-clip: text;
     -webkit-background-clip: text;
@@ -46,15 +77,15 @@
 
   &__feels {
     font-weight: 600;
-    font-size: 20px;
+    @include adaptiv-value('font-size', 20, 16, 1);
     color: #292929;
     span {
       font-weight: 600;
-      font-size: 32px;
+      @include adaptiv-value('font-size', 32, 20, 1);
       color: #292929;
     }
     &:not(:last-child) {
-      margin-bottom: 35px;
+      @include adaptiv-value('margin-bottom', 35, 20, 1);
     }
   }
 
@@ -63,18 +94,23 @@
   &__sunset {}
 
   &__image {
-    width: 200px;
-    height: 200px;
+    @include adaptiv-value('width', 200, 100, 1);
+    @include adaptiv-value('height', 200, 75, 1);
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+    @media (max-width: 767px) {
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
   }
 
   &__title {
     font-weight: 700;
-    font-size: 32px;
+    @include adaptiv-value('font-size', 32, 20, 1);
     text-align: center;
     color: #292929;
   }
@@ -83,22 +119,22 @@
     img {
       max-width: 100%;
       &:not(:last-child) {
-        margin-bottom: 19px;
+        @include adaptiv-value('margin-bottom', 19, 15, 1);
       }
     }
 
     p:nth-of-type(1) {
       font-weight: 600;
-      font-size: 20px;
+      @include adaptiv-value('font-size', 20, 16, 1);
       color: #292929;
       &:not(:last-child) {
-        margin-bottom: 20px;
+        @include adaptiv-value('margin-bottom', 20, 14, 1);
       }
     }
 
     p:nth-of-type(2) {
       font-weight: 500;
-      font-size: 16px;
+      @include adaptiv-value('font-size', 16, 14, 1);
       color: #292929;
     }
   }
@@ -107,22 +143,22 @@
     img {
       max-width: 100%;
       &:not(:last-child) {
-        margin-bottom: 10px;
+        @include adaptiv-value('margin-bottom', 10, 8, 1);
       }
     }
     p:nth-of-type(1) {
       font-weight: 600;
-      font-size: 20px;
+      @include adaptiv-value('font-size', 20, 16, 1);
       text-align: center;
       color: #292929;
       &:not(:last-child) {
-        margin-bottom: 20px;
+        @include adaptiv-value('margin-bottom', 20, 14, 1);
       }
     }
     
     p:nth-of-type(2) {
       font-weight: 500;
-      font-size: 16px;
+      @include adaptiv-value('font-size', 16, 14, 1);
       color: #292929;
     }
   }
@@ -131,24 +167,24 @@
     img {
       max-width: 100%;
       &:not(:last-child) {
-        margin-bottom: 10px;
+        @include adaptiv-value('margin-bottom', 10, 8, 1);
       }
     }
   
     p:nth-of-type(1) {
       font-weight: 600;
-      font-size: 20px;
+      @include adaptiv-value('font-size', 20, 16, 1);
       text-align: center;
       color: #292929;
   
       &:not(:last-child) {
-        margin-bottom: 20px;
+        @include adaptiv-value('margin-bottom', 20, 14, 1);
       }
     }
   
     p:nth-of-type(2) {
       font-weight: 500;
-      font-size: 16px;
+      @include adaptiv-value('font-size', 16, 14, 1);
       color: #292929;
     }
   }
@@ -157,24 +193,24 @@
     img {
       max-width: 100%;
       &:not(:last-child) {
-        margin-bottom: 10px;
+        @include adaptiv-value('margin-bottom', 10, 8, 1);
       }
     }
   
     p:nth-of-type(1) {
       font-weight: 600;
-      font-size: 20px;
+      @include adaptiv-value('font-size', 20, 16, 1);
       text-align: center;
       color: #292929;
   
       &:not(:last-child) {
-        margin-bottom: 20px;
+        @include adaptiv-value('margin-bottom', 20, 14, 1);
       }
     }
   
     p:nth-of-type(2) {
       font-weight: 500;
-      font-size: 16px;
+      @include adaptiv-value('font-size', 16, 14, 1);
       color: #292929;
     }
   }
@@ -183,9 +219,9 @@
 .sunrise-current {
   display: flex;
   align-items: center;
-  gap: 11px;
+  @include adaptiv-value('gap', 11, 9, 1);
   &:not(:last-child) {
-    margin-bottom: 13px;
+    @include adaptiv-value('margin-bottom', 13, 10, 1);
   }
   &__image {}
 
@@ -193,14 +229,14 @@
     color: #292929;
     h4 {
       font-weight: 700;
-      font-size: 20px;
+      @include adaptiv-value('font-size', 20, 16, 1);
       &:not(:last-child) {
-        margin-bottom: 9px;
+        @include adaptiv-value('margin-bottom', 9, 8, 1);
       }
     }
    p {
       font-weight: 600;
-      font-size: 16px;
+      @include adaptiv-value('font-size', 16, 14, 1);
       color: #292929;
     }
   }
@@ -209,7 +245,7 @@
 .sunset-current {
   display: flex;
   align-items: center;
-  gap: 11px;
+  @include adaptiv-value('gap', 11, 9, 1);
   &__image {}
 
   &__info {
@@ -217,16 +253,15 @@
 
    h4 {
       font-weight: 700;
-      font-size: 20px;
-
+      @include adaptiv-value('font-size', 20, 16, 1);
       &:not(:last-child) {
-        margin-bottom: 9px;
+        @include adaptiv-value('margin-bottom', 9, 8, 1);
       }
     }
 
    p {
       font-weight: 600;
-      font-size: 16px;
+      @include adaptiv-value('font-size', 16, 14, 1);
       color: #292929;
     }
   }

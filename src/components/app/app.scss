@@ -1,23 +1,46 @@
+@import '../../styles/vars';
+
 .app {
   background: linear-gradient(135deg, #fff 0%, rgba(70, 97, 115, 0.8) 100%);
-  padding-bottom: 60px;
+  @include adaptiv-value('padding-bottom', 60, 30, 1);
   min-height: 100vh;
   &__header {}
 
   &__content {}
 
   &__top {
-    display: grid;
-    grid-template-columns: minmax(300px, 510px) minmax(300px, 780px);
-    gap: 55px;
+    @media (min-width: 1300px) {
+      display: grid;
+      grid-template-columns: minmax(300px, 510px) minmax(300px, 780px);
+    }
+    @media (max-width: 1300px) {
+      display: flex;
+      justify-items: center;
+      justify-content: space-evenly;
+    }
+    @media (max-width: 1000px) {
+      flex-direction: column;
+    }
+    @include adaptiv-value('gap', 55, 20, 1);
     &:not(:last-child) {
-      margin-bottom: 50px;
+      @include adaptiv-value('margin-bottom', 50, 20, 1);
     }
   }
 
   &__bottom {
-    display: grid;
-    grid-template-columns: minmax(300px, 414px) minmax(300px, 870px);
-    gap: 55px;
+    @media (min-width: 1300px) {
+      display: grid;
+      grid-template-columns: minmax(300px, 414px) minmax(300px, 870px);
+    }
+    @media (max-width: 1300px) {
+      display: flex;
+      justify-items: center;
+      justify-content: space-evenly;
+    }
+
+    @media (max-width: 1000px) {
+      flex-direction: column;
+    }
+    @include adaptiv-value('gap', 55, 20, 1);
   }
 }
