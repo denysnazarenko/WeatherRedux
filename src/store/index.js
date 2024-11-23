@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import weather from "../components/WeatherCurrent/weatherSlice";
 
 const _apiBase = 'http://api.weatherapi.com/v1/';
-const _apiKey = 'bd9ec120899547e8b4274331242008';
+const _apiKey = 'hide'; // apikey is at https://www.weatherapi.com/
 
 const store = configureStore({
   reducer: { weather },
